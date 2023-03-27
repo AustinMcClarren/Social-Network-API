@@ -1,4 +1,4 @@
-const { Thought, User } = require('../models');
+const { Thought, User, Reaction } = require('../models/index');
 
 module.exports = {
   // Get all thought
@@ -11,9 +11,9 @@ module.exports = {
 
 
 
-  // Get a thought
+  // Get a thought by id
   getSingleThought(req, res) {
-    thought.findOne({ _id: req.params.thoughtId })
+    Thought.findOne({ _id: req.params.thoughtId })
       .select('-__v')
       .then((thought) =>
         !course
@@ -26,9 +26,9 @@ module.exports = {
 
 
 
-  // Create a thought
+  // Create a thought 
   createThought(req, res) {
-    thought.create(req.body)
+    Thought.create(req.body)
       .then((thought) => res.json(thought))
       .catch((err) => {
         console.log(err);
@@ -41,13 +41,13 @@ module.exports = {
 
   // Delete a thought
   deleteThought(req, res) {
-    thought.findOneAndDelete({ _id: req.params.thoughtId })
+    Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: 'No thought with that ID' })
           : Student.deleteMany({ _id: { $in: thought.User } })
       )
-      .then(() => res.json({ message: 'thought and user deleted!' }))
+      .then(() => res.json({ message: 'thought deleted!' }))
       .catch((err) => res.status(500).json(err));
   },
 
@@ -57,7 +57,7 @@ module.exports = {
 
   // Update a thought
   updateThought(req, res) {
-    thought.findOneAndUpdate(
+    Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $set: req.body },
       { runValidators: true, new: true }
@@ -74,7 +74,7 @@ module.exports = {
     createReaction(req, res) {
       console.log('You are adding an reaction');
       console.log(req.body);
-      thought.findOneAndUpdate(
+      Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
         { $addToSet: { assignments: req.body } },
         { runValidators: true, new: true }
@@ -92,7 +92,7 @@ module.exports = {
 
     // Remove a reaction 
     deleteReaction(req, res) {
-      thought.findOneAndUpdate(
+      Thought.findOneAndUpdate(
         { _id: req.params.studentId },
         { $pull: { assignment: { thoughtId: req.params.reactionID } } },
         { runValidators: true, new: true }

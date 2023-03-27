@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const {Schema,model} = require('mongoose');
+const mongoose = require('mongoose');
 //This line of code imports the Schema and model objects from the Mongoose library in Node.js.
 
 
@@ -26,6 +27,8 @@ const UserSchema = new Schema(
             //This code specifies that the data type for a field in a Mongoose schema is an ObjectId.
             ref: 'User'   
         },
+    },
+    {
         toJSON: {
             virtuals: true,
         },
@@ -43,7 +46,7 @@ const UserSchema = new Schema(
     const User = model("User", UserSchema);
     
 
-    module.exports = User;
+    // module.exports = User;
     
     
     
