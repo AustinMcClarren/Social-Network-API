@@ -1,6 +1,9 @@
 const { Schema, model, Types } = require('mongoose');
 const moment = require('moment');
 
+
+
+
 const ReactionSchema = new Schema({
     reactionId: {
         type: Schema.Types.ObjectId,
@@ -63,7 +66,7 @@ ThoughtSch.virtual('reactionCount').get(function () {
 });
 
 // create the Thought model
-const Thought = model('Thought', ThoughtSch);
+module.exports = model('Thought', ThoughtSch);
 
 // export the Thought model
 // module.exports = ThoughtSch;

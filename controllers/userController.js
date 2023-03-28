@@ -1,4 +1,4 @@
-const {User} = require('../models/index');
+const { User } = require('../models');
 
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
 
 
   // Get a User
-  getSingleThought(req, res) {
+  getUserById(req, res) {
     User.findOne({ _id: req.params.UserId })
       .select('-__v')
       .then((User) =>
@@ -63,20 +63,20 @@ module.exports = {
       { $set: req.body },
       { runValidators: true, new: true }
     )
-      .then((thought) =>
-        !thought
-          ? res.status(404).json({ message: 'No thought with this id!' })
-          : res.json(course)
+      .then((User) =>
+        !User
+          ? res.status(404).json({ message: 'No User with this id!' })
+          : res.json(User)
       )
       .catch((err) => res.status(500).json(err));
   },
 
     // Add a friend 
-    createFriend(req, res) {
+    addFriend(req, res) {
       console.log('You are adding an Friend');
       console.log(req.body);
       User.findOneAndUpdate(
-        { _id: req.params.thoughtId },
+        { _id: req.params.friendId },
         { $addToSet: { assignments: req.body } },
         { runValidators: true, new: true }
       )
@@ -84,8 +84,8 @@ module.exports = {
           !User
             ? res
                 .status(404)
-                .json({ message: 'No thoughts found with that ID  :(' })
-            : res.json(thought)
+                .json({ message: 'friend could not not be added  :(' })
+            : res.json(User)
         )
         .catch((err) => res.status(500).json(err));
     },
@@ -95,14 +95,14 @@ module.exports = {
     deleteFriend(req, res) {
         User.findOneAndUpdate(
         { _id: req.params.studentId },
-        { $pull: { assignment: { UserId: req.params.reactionID } } },
+        { $pull: { assignment: { UserId: req.params.friendId } } },
         { runValidators: true, new: true }
       )
         .then((User) =>
           !User
             ? res
                 .status(404)
-                .json({ message: 'No Friend found with that ID :(' })
+                .json({ message: 'friend could not be deleted!:(' })
             : res.json(User)
         )
         .catch((err) => res.status(500).json(err));
@@ -112,4 +112,4 @@ module.exports = {
 
 
 // Export module thought controller
-module.exports = userController;
+// module.exports = userController;

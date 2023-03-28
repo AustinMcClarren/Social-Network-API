@@ -2,7 +2,7 @@ const { Thought, User, Reaction } = require('../models/index');
 
 module.exports = {
   // Get all thought
-  getThought(req, res) {
+  getAllThought(req, res) {
     Thought.find()
       .then((thought) => res.json(thought))
       .catch((err) => res.status(500).json(err));
@@ -70,6 +70,9 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
+
+
+
     // Add an reaction 
     createReaction(req, res) {
       console.log('You are adding an reaction');
@@ -88,6 +91,9 @@ module.exports = {
         )
         .catch((err) => res.status(500).json(err));
     },
+
+
+
 
 
     // Remove a reaction 
@@ -110,8 +116,11 @@ module.exports = {
 
 
 
+
+
+
 // Export module thought controller
-module.exports = thoughtController;
+// module.exports = thoughtController;
 
 
 

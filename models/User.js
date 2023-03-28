@@ -17,16 +17,16 @@ const UserSchema = new Schema(
             unique: true,
             match: [/.+\@.+\..+/],
         },
-        thoughts:{
+        thoughts:[{
             type: mongoose.Schema.Types.ObjectId,
             //This code specifies that the data type for a field in a Mongoose schema is an ObjectId.
             ref: 'Thought'
-        },
-        friends:{
+        }],
+        friends:[{
             type: mongoose.Schema.Types.ObjectId,
             //This code specifies that the data type for a field in a Mongoose schema is an ObjectId.
             ref: 'User'   
-        },
+        }],
     },
     {
         toJSON: {
@@ -34,7 +34,6 @@ const UserSchema = new Schema(
         },
         id: false,
     }
-    
     );
     
     //We then define a virtual called friendCount using the virtual() method on the schema. This virtual uses a getter function that returns the length of the friends array field for a given user.
@@ -43,7 +42,7 @@ const UserSchema = new Schema(
     });
 
     //The code const User = model("User", UserSchema); creates a Mongoose model named User using the model() method
-    const User = model("User", UserSchema);
+   module.exports = model("User", UserSchema);
     
 
     // module.exports = User;
