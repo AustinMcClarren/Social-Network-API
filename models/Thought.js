@@ -1,10 +1,11 @@
 const { Schema, model, Types } = require('mongoose');
+const reactionSch = require("./reaction");
 const moment = require('moment');
 
 
 
 
-const ReactionSchema = new Schema({
+const reactionSchema = new Schema({
     reactionId: {
         type: Schema.Types.ObjectId,
         default: () => new Types.ObjectId()
@@ -49,7 +50,7 @@ const ThoughtSch = new Schema({
         type: String,
         required: true
     },
-    reactions: [ReactionSchema]
+    // reactions: [ReactionSchema]
 },
 
     {
@@ -68,35 +69,7 @@ ThoughtSch.virtual('reactionCount').get(function () {
 // create the Thought model
 module.exports = model('Thought', ThoughtSch);
 
-// export the Thought model
-// module.exports = ThoughtSch;
+// module.exports = Thought;
 
 
 
-
-
-
-// **Thought**:
-
-// * `thoughtText`
-//   * String
-//   * Required
-//   * Must be between 1 and 280 characters
-
-// * `createdAt`
-//   * Date
-//   * Set default value to the current timestamp
-//   * Use a getter method to format the timestamp on query
-
-// * `username` (The user that created this thought)
-//   * String
-//   * Required
-
-// * `reactions` (These are like replies)
-//   * Array of nested documents created with the `reactionSchema`
-
-// **Schema Settings**:
-
-// Create a virtual called `reactionCount` that retrieves the length of the thought's `reactions` array field on query.
-
-// ---
