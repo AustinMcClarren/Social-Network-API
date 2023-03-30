@@ -1,12 +1,30 @@
-const { User } = require('../models');
+// const { response } = require('express');
+const { User,Thought } = require('../models');
+
+async function friendCount() {
+  const numberOfFriends = await User.aggregate().count("friendCount");
+  return numberOfFriends;
+}
+
 
 
 module.exports = {
-  // Get all thought
+  // Get all users
   getAllUser(req, res) {
+    console.log(users)
     User.find()
-      .then((User) => res.json(User))
-      .catch((err) => res.status(500).json(err));
+      .populate("thoughts")
+      .then(async (users) => {
+        const userObject = {
+          users,
+          friendCount: await friendCount(),
+        };
+        return res.json(userObject);
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).json({ message: "Internal server error" });
+      });
   },
 
 
@@ -16,6 +34,8 @@ module.exports = {
   getUserById(req, res) {
     User.findOne({ _id: req.params.UserId })
       .select('-__v')
+      .populate("friends")
+      .populate("thoughts")
       .then((User) =>
         !User
           ? res.status(404).json({ message: 'No user with that ID' })
